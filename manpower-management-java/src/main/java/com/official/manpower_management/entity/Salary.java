@@ -25,7 +25,6 @@ public class Salary {
     @NotBlank(message = "Take home amount is required")
     private double takeHome;
 
-    @NotBlank(message = "Deduction amount is required")
     private double deduction;
 
     @NotBlank(message = "CTC amount is required")

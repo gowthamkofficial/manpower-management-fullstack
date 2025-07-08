@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class AddressDto {
 
     private Long addressId;
+    private String doorNo;
     private String addressLine1;
     private String addressLine2;
     private String district;

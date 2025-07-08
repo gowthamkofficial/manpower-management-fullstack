@@ -22,6 +22,9 @@ public class EmployeeDto {
 
     private LocalDate dateOfJoining;
 
+
+    private DepartmentDto department;
+
     private SalaryDto salary;
 
     private AddressDto address;

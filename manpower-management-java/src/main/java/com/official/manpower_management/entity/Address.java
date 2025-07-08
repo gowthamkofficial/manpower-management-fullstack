@@ -20,13 +20,14 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String doorNo;
     private String addressLine1;
     private String addressLine2;
     private String district;
     private String state;
     private String pincode;
 
-    @OneToOne(mappedBy = "address",cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
     private Employee employee;
 
 }

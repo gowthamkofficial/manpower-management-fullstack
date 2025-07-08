@@ -1,5 +1,6 @@
 package com.official.manpower_management.entity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
@@ -26,9 +27,9 @@ public class Experience {
 
     private String companyName;
 
-    private LocalDateTime fromDate;
+    private LocalDate fromDate;
 
-    private LocalDateTime toDate;
+    private LocalDate toDate;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
