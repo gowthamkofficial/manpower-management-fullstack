@@ -1,0 +1,43 @@
+<mat-toolbar class="toolbar" color="primary">
+  <div class="logo">
+    <span>Employee Management</span>
+  </div>
+  <span class="spacer"></span>
+  <div class="user-logo">Gowtham K <mat-icon>person</mat-icon></div>
+</mat-toolbar>
+
+<mat-sidenav-container class="main-container">
+  <mat-sidenav mode="side" opened class="sidenav">
+    <mat-nav-list>
+      <ng-container *ngFor="let item of menuItems">
+        <ng-container>
+          <div class="menu-group">
+            <div class="menu-header">
+              <mat-icon>{{ item.icon }}</mat-icon>
+              <span *ngIf="item.children;else noChildItems" class="ml-2"
+                >{{ item.label }}</span
+              >
+              <ng-template #noChildItems>
+                <a style="text-decoration: none;color: #555;"  [routerLink]="item.route">{{ item.label }}</a>
+              </ng-template>
+            </div>
+            <div class="submenu">
+              <a
+                mat-list-item
+                class="submenu-item"
+                *ngFor="let child of item.children"
+                [routerLink]="child.route"
+              >
+                {{ child.label }}
+              </a>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="sidenav-content">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+</mat-sidenav-container>

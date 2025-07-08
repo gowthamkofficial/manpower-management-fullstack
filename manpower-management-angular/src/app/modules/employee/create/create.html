@@ -1,0 +1,196 @@
+<div class="employee-header">
+  <h2>Create Employee</h2>
+  <button mat-flat-button color="accent" [routerLink]="['/employee/list']">
+    <mat-icon>list</mat-icon>
+    List
+  </button>
+</div>
+
+<mat-card class="form-card">
+  <!-- 🔹 Personal Details -->
+  <h3 class="form-section-title">Personal Details</h3>
+  <div class="form-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>First Name</mat-label>
+      <input matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Last Name</mat-label>
+      <input matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Mobile Number</mat-label>
+      <input matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Employee Code</mat-label>
+      <input matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Department</mat-label>
+      <input matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Status</mat-label>
+      <mat-select>
+        <mat-option value="CURRENT">CURRENT</mat-option>
+        <mat-option value="RESIGNED">RESIGNED</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Date of Joining</mat-label>
+      <input matInput [matDatepicker]="joiningPicker" />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="joiningPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #joiningPicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <!-- 🔹 Address Details -->
+  <h3 class="form-section-title">Address Details</h3>
+  <div class="form-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>Door No</mat-label>
+      <input matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Address Line 1</mat-label>
+      <input matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Address Line 2</mat-label>
+      <input matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>District</mat-label>
+      <input matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>State</mat-label>
+      <input matInput />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Pincode</mat-label>
+      <input matInput type="number" />
+    </mat-form-field>
+  </div>
+
+  <!-- 🔹 Salary Details -->
+  <h3 class="form-section-title">Salary Details</h3>
+  <div class="form-grid">
+    <mat-form-field appearance="outline">
+      <mat-label>CTC</mat-label>
+      <input matInput type="number" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Take Home</mat-label>
+      <input matInput type="number" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Hike Date</mat-label>
+      <input matInput [matDatepicker]="hikePicker" />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="hikePicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker #hikePicker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <!-- 🔹 Experience Details -->
+  <h3 class="form-section-title">Experience Details</h3>
+  <div class="experience-block">
+    <div class="form-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Company Name</mat-label>
+        <input matInput />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>From Date</mat-label>
+        <input matInput [matDatepicker]="fromDate1" />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="fromDate1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #fromDate1></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>To Date</mat-label>
+        <input matInput [matDatepicker]="toDate1" />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="toDate1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #toDate1></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Role</mat-label>
+        <input matInput />
+      </mat-form-field>
+    </div>
+    <div class="form-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>Company Name</mat-label>
+        <input matInput />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>From Date</mat-label>
+        <input matInput [matDatepicker]="fromDate1" />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="fromDate1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #fromDate1></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>To Date</mat-label>
+        <input matInput [matDatepicker]="toDate1" />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="toDate1"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #toDate1></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Role</mat-label>
+        <input matInput />
+      </mat-form-field>
+    </div>
+
+    <button mat-stroked-button color="primary">
+      <mat-icon>add</mat-icon> Add Experience
+    </button>
+  </div>
+
+  <!-- 🔹 Action Buttons -->
+  <div class="form-actions">
+    <button mat-flat-button color="primary">Submit</button>
+    <button mat-button type="reset">Reset</button>
+  </div>
+</mat-card>

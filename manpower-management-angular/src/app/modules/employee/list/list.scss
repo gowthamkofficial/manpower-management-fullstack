@@ -1,0 +1,87 @@
+/* Header section with title and button */
+.employee-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+  }
+
+  button {
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+}
+
+/* Table wrapper */
+mat-table {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+//   overflow: hidden;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Header row styling */
+mat-header-row {
+  background-color: #f5f5f5;
+}
+
+mat-header-cell {
+  padding: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+//   border-right: 1px solid #e0e0e0;
+  text-transform: uppercase;
+}
+
+/* Body row styling */
+mat-row {
+//   border-bottom: 1px solid #ffffff;
+border: none;
+  transition: background-color 0.3s ease;
+}
+
+mat-cell {
+  padding: 12px;
+  font-size: 14px;
+  color: #444;
+//   border-right: 1px solid #f0f0f0;
+}
+
+/* Remove right border from last column */
+mat-header-cell:last-child,
+mat-cell:last-child {
+  border-right: none;
+}
+
+/* Hover effect on rows */
+mat-row:hover {
+  background-color: #f0f8ff;
+  cursor: pointer;
+}
+
+/* Status styles */
+.status-active {
+  color: #2e7d32; // green
+  font-weight: 600;
+}
+
+.status-resigned {
+  color: #d32f2f; // red
+  font-weight: 600;
+}
+
+/* Paginator spacing */
+mat-paginator {
+  margin-top: 16px;
+}

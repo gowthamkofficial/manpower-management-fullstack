@@ -1,0 +1,36 @@
+<mat-card class="ctc-container">
+  <h2 class="page-title">Dynamic CTC Calculator</h2>
+
+  <!-- CTC Input -->
+  <mat-form-field appearance="outline" class="full-width">
+    <mat-label>CTC Amount (Yearly)</mat-label>
+    <input matInput type="number" [(ngModel)]="ctcAmount" (ngModelChange)="calculateBreakdown()" />
+  </mat-form-field>
+
+
+
+
+
+
+
+
+  <!-- Breakdown -->
+  <mat-card class="breakdown-card">
+    <h4 class="highlight-green">Net Monthly Salary: ₹{{ netMonthlySalary }}</h4>
+    <h4 class="highlight-green">Net Annual Salary: ₹{{ netAnnualSalary }}</h4>
+
+    <h5>Earnings</h5>
+    <div class="breakdown-row" *ngFor="let earn of earnings">
+      <span>{{ earn.label }}</span>
+      <span>₹{{ earn.amount }}</span>
+    </div>
+
+    <h5>Deductions</h5>
+    <div class="breakdown-row" *ngFor="let ded of deductions">
+      <span>{{ ded.label }}</span>
+      <span class="deduction">- ₹{{ ded.amount }}</span>
+    </div>
+
+    <h5>Total Deductions: <span class="deduction">₹{{ totalDeductions }}</span></h5>
+  </mat-card>
+</mat-card>

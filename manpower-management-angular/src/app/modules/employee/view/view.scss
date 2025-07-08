@@ -1,0 +1,53 @@
+.employee-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 24px auto 16px;
+  max-width: 1200px;
+
+  h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+  }
+
+  button {
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+}
+
+.view-card {
+  max-width: 1200px;
+  margin: auto;
+  padding: 24px;
+}
+
+.section-title {
+  margin-top: 24px;
+  font-size: 20px;
+  font-weight: 600;
+  border-bottom: 2px solid #ccc;
+  padding-bottom: 4px;
+  margin-bottom: 16px;
+}
+
+.view-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+
+  div {
+    background-color: #f9f9f9;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+  }
+}
+
+.experience-section{
+    padding: 20px 0px;
+}

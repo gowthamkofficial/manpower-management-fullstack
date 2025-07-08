@@ -1,0 +1,51 @@
+<div class="page-wrapper">
+  <!-- 🔹 Page Header -->
+  <div class="page-header">
+    <h2>Department List</h2>
+    <button mat-raised-button color="primary" (click)="openCreateDialog()">
+      <mat-icon>add</mat-icon>
+      <span>Add Department</span>
+    </button>
+  </div>
+
+  <!-- 🔹 Department Table -->
+  <mat-card class="department-card mat-elevation-z3">
+    <mat-table [dataSource]="dataSource" class="custom-table">
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.id }}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="shortCode">
+        <mat-header-cell *matHeaderCellDef>Department Shortcode</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.shortCode }}</mat-cell>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef>Department Name</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{ element.name }}</mat-cell>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-icon-button color="accent">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <!-- 🔹 Paginator -->
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </mat-card>
+</div>

@@ -1,0 +1,74 @@
+<!-- 🔹 Page Header -->
+<div class="employee-header">
+  <h2>View Employee</h2>
+  <button mat-flat-button color="accent" [routerLink]="['/employee/list']">
+    <mat-icon>list</mat-icon>
+    List
+  </button>
+</div>
+
+<mat-card class="view-card">
+  <!-- 🔹 Personal Details -->
+  <h3 class="section-title">Personal Details</h3>
+  <div class="view-grid">
+    <div><strong>First Name:</strong> {{ employee.firstName }}</div>
+    <div><strong>Last Name:</strong> {{ employee.lastName }}</div>
+    <div><strong>Email:</strong> {{ employee.email }}</div>
+    <div><strong>Mobile:</strong> {{ employee.mobileNumber }}</div>
+    <div><strong>Employee Code:</strong> {{ employee.employeeCode }}</div>
+    <div><strong>Department:</strong> {{ employee.department }}</div>
+    <div><strong>Status:</strong> {{ employee.status }}</div>
+    <div>
+      <strong>Date of Joining:</strong> {{ employee.dateOfJoining | date }}
+    </div>
+  </div>
+
+  <!-- 🔹 Address -->
+  <h3 class="section-title">Address Details</h3>
+  <div class="view-grid">
+    <div><strong>Door No:</strong> {{ employee.address.doorNo }}</div>
+    <div>
+      <strong>Address Line 1:</strong> {{ employee.address.addressLine1 }}
+    </div>
+    <div>
+      <strong>Address Line 2:</strong> {{ employee.address.addressLine2 }}
+    </div>
+    <div><strong>District:</strong> {{ employee.address.district }}</div>
+    <div><strong>State:</strong> {{ employee.address.state }}</div>
+    <div><strong>Pincode:</strong> {{ employee.address.pincode }}</div>
+  </div>
+
+  <!-- 🔹 Salary -->
+  <h3 class="section-title">Salary Details</h3>
+  <div class="view-grid">
+    <div><strong>CTC:</strong> ₹{{ employee.salary.ctc }}</div>
+    <div><strong>Take Home:</strong> ₹{{ employee.salary.takeHome }}</div>
+    <div><strong>Hike Date:</strong> {{ employee.salary.hikeDate | date }}</div>
+  </div>
+
+  <!-- 🔹 Experience -->
+  <h3 class="section-title">Experience</h3>
+  <div class="experience-section">
+    <mat-accordion *ngIf="employee.experience.length > 0">
+      <mat-expansion-panel
+        *ngFor="let exp of employee.experience; let i = index"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title> {{ exp.companyName }} </mat-panel-title>
+          <mat-panel-description> {{ exp.role }} </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <div class="view-grid">
+          <div><strong>Company Name:</strong> {{ exp.companyName }}</div>
+          <div><strong>From:</strong> {{ exp.fromDate | date }}</div>
+          <div><strong>To:</strong> {{ exp.toDate | date }}</div>
+          <div><strong>Role:</strong> {{ exp.role }}</div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <div *ngIf="employee.experience.length === 0">
+      No experience details available.
+    </div>
+  </div>
+</mat-card>

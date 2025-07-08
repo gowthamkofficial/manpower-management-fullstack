@@ -1,0 +1,66 @@
+<div class="employee-header">
+  <h2>Employee Lis ({{dataSource.data.length}})</h2>
+  <button mat-flat-button color="primary" (click)="createEmployee()">
+    <mat-icon>add</mat-icon> Create Employee
+  </button>
+</div>
+
+<mat-table [dataSource]="dataSource" class="mat-elevation-z2" matSort>
+  <!-- First Name Column -->
+  <ng-container matColumnDef="firstName">
+    <mat-header-cell *matHeaderCellDef mat-sort-header
+      >First Name</mat-header-cell
+    >
+    <mat-cell *matCellDef="let element">{{ element.firstName }}</mat-cell>
+  </ng-container>
+
+  <!-- Last Name Column -->
+  <ng-container matColumnDef="lastName">
+    <mat-header-cell *matHeaderCellDef mat-sort-header
+      >Last Name</mat-header-cell
+    >
+    <mat-cell *matCellDef="let element">{{ element.lastName }}</mat-cell>
+  </ng-container>
+
+  <!-- Email Column -->
+  <ng-container matColumnDef="email">
+    <mat-header-cell *matHeaderCellDef>Email</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.email }}</mat-cell>
+  </ng-container>
+
+  <!-- Mobile Number Column -->
+  <ng-container matColumnDef="mobileNumber">
+    <mat-header-cell *matHeaderCellDef>Mobile</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.mobileNumber }}</mat-cell>
+  </ng-container>
+
+  <!-- Employee Code Column -->
+  <ng-container matColumnDef="employeeCode">
+    <mat-header-cell *matHeaderCellDef>Emp Code</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.employeeCode }}</mat-cell>
+  </ng-container>
+
+  <!-- Department Column -->
+  <ng-container matColumnDef="department">
+    <mat-header-cell *matHeaderCellDef>Department</mat-header-cell>
+    <mat-cell *matCellDef="let element">{{ element.department }}</mat-cell>
+  </ng-container>
+
+  <!-- Status Column -->
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <span
+        [ngClass]="element.status === 'RESIGNED' ? 'status-resigned' : 'status-active'"
+      >
+        {{ element.status }}
+      </span>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Header and Row Definitions -->
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<mat-paginator [pageSizeOptions]="[ 10, 25,50]"></mat-paginator>
