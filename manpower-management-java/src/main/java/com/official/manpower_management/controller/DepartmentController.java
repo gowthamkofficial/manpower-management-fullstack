@@ -1,31 +1,59 @@
 package com.official.manpower_management.controller;
 
-import com.official.manpower_management.model.dto.DepartmentDto;
-import com.official.manpower_management.model.response.ApiResponse;
-import com.official.manpower_management.model.response.PaginatedResponse;
-
-import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
-@RequestMapping("/api/departments")
-public interface DepartmentController {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.official.manpower_management.model.dto.DepartmentDto;
+import com.official.manpower_management.model.response.ApiResponse;
+import com.official.manpower_management.service.DepartmentService;
+
+@RestController
+@RequestMapping("api/departments")
+public class DepartmentController {
+
+    @Autowired
+    private DepartmentService depertmentService;
+
     @GetMapping
-    ApiResponse<PaginatedResponse<List<DepartmentDto>>> getAllDepartments(
-            @RequestParam(defaultValue = "0") int offset,
-            @RequestParam(defaultValue = "10") int limit,
-            @RequestParam(defaultValue = "departmentName") String sortBy,
-            @RequestParam(defaultValue = "asc") String sortDirection);
+    public ResponseEntity<ApiResponse<List<DepartmentDto>>> getAllDepartment() {
+        return depertmentService.getAllDepartment();
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<ApiResponse<DepartmentDto>> createDepartment(@RequestBody DepartmentDto dto) {
+        return depertmentService.createDepartment(dto);
+    }
+
+    @PostMapping("/update/{id}")
+    public ResponseEntity<ApiResponse<DepartmentDto>> updateDepartment(@PathVariable Long id,
+            @RequestBody DepartmentDto dto) {
+        return depertmentService.updateDepartment(id, dto);
+    }
 
     @GetMapping("/{id}")
-    ApiResponse<DepartmentDto> getDepartmentById(@PathVariable Long id);
+    public ResponseEntity<ApiResponse<DepartmentDto>> getDepartmentById(@PathVariable Long id) {
+        return depertmentService.getDepartmentById(id); 
+    }
 
-    @PostMapping
-    ApiResponse<DepartmentDto> createDepartment(@RequestBody DepartmentDto dto);
+    @PostMapping("/status/{id}")
+    public ResponseEntity<ApiResponse<?>> updateStatusDepartment(@PathVariable Long id,
+            @RequestParam int status) {
+        return depertmentService.updateStatus(id, status);
+    }
 
-    @PutMapping("/{id}")
-    ApiResponse<DepartmentDto> updateDepartment(@PathVariable Long id, @RequestBody DepartmentDto dto);
+    @PostMapping("/delete/{id}")
+    public ResponseEntity<ApiResponse<?>> deleteDepartment(@PathVariable Long id,
+            @RequestParam int status) {
+        return depertmentService.updateStatus(id, status);
+    }
 
-    @PutMapping("/{id}/status")
-    ApiResponse<DepartmentDto> updateStatus(@PathVariable Long id, @RequestParam int status);
 }

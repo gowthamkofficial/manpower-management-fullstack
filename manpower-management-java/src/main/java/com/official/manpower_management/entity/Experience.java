@@ -1,7 +1,6 @@
 package com.official.manpower_management.entity;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
