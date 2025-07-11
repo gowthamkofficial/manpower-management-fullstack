@@ -111,6 +111,51 @@ public class EmployeeService {
 
     }
 
+    public ResponseEntity<ApiResponse<EmployeeDto>> updateEmployee(Long id, EmployeeDto dto) {
+        try {
+
+            Employee existingEmployee = employeeRepo.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Employee not with id " + id));
+
+            if (employeeRepo.existsByEmailAndIdNot(dto.getEmail(), id)) {
+                throw new RuntimeException("Email already exists");
+            }
+            if (employeeRepo.existsByMobileNumberAndIdNot(dto.getMobileNumber(), id)) {
+                throw new RuntimeException("Mobile Number already exists");
+
+            }
+
+            Employee mapped = connvertToEntity(id, dto);
+
+            if (mapped.getExperience() != null) {
+                mapped.getExperience().forEach(e -> {
+                    e.setEmployee(mapped);
+                    // System.err.println(e + " Hello mister--------------->");
+                });
+            }
+
+            return ResponseEntity.ok().body(
+                    new ApiResponse<>(true, "Updated employee successfully", convertToDto(employeeRepo.save(mapped))));
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError()
+                    .body(new ApiResponse<>(false, "Couldn't update employee " + e.getMessage(), null));
+        }
+    }
+
+    public ResponseEntity<ApiResponse<EmployeeDto>> getEmployeeById(Long id) {
+        try {
+            Employee existingEmployee = employeeRepo.findById(id)
+                    .orElseThrow(() -> new RuntimeException("Employee not found with id " + id));
+
+            return ResponseEntity.ok()
+                    .body(new ApiResponse<>(true, "Fetched Employee successfully", convertToDto(existingEmployee)));
+        } catch (Exception e) {
+           return ResponseEntity.internalServerError()
+                    .body(new ApiResponse<>(false, "Couldn't fetch an employee " + e.getMessage(), null));
+        }
+    }
+
     public EmployeeDto convertToDto(Employee emp) {
         return EmployeeDto.builder()
                 .employeeId(emp.getId())
@@ -152,7 +197,7 @@ public class EmployeeService {
                 .email(dto.getEmail())
                 .mobileNumber(dto.getMobileNumber())
                 .department(departmentService.convertToEntityForEmployeeCreate(dto.getDepartment()))
-                .empCode(generateEmpCode())
+                .empCode(generateEmpCode(id))
                 .address(addressService.convertToEntity(dto.getAddress().getAddressId(), dto.getAddress()))
                 .salary(salaryService.convertToEntity(dto.getSalary().getSalaryId(), dto.getSalary()))
                 .experience(
@@ -162,7 +207,12 @@ public class EmployeeService {
     }
 
     public String generateEmpCode() {
-        return "EMP00" + employeeRepo.count() + 1;
+        Long count = employeeRepo.count() + 1;
+        return "EMP00" + count;
+    }
+
+    public String generateEmpCode(Long id) {
+        return "EMP00" + id;
     }
 
 }

@@ -6,4 +6,7 @@ import com.official.manpower_management.entity.Experience;
 
 public interface ExperienceRepository extends JpaRepository<Experience, Long> {
 
+
+    
+
 }
