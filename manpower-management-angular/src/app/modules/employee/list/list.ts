@@ -26,7 +26,7 @@ export class List implements OnInit, AfterViewInit {
     'mobileNumber',
     'employeeCode',
     'department',
-    'status',
+    // 'status',
   ];
 
   dataSource = new MatTableDataSource<Employee>([]);

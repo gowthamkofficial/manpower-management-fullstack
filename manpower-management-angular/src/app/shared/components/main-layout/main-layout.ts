@@ -26,7 +26,7 @@ export class MainLayout {
       icon: 'settings',
       children: [
         { label: 'Department', route: '/settings/department' },
-        { label: 'CTC Calculator', route: '/settings/calculator' },
+        // { label: 'CTC Calculator', route: '/settings/calculator' },
       ],
     },
   ];

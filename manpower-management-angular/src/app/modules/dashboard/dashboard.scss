@@ -1,0 +1,49 @@
+.container {
+  padding: 16px;
+width: 100%;
+  .row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 32px;
+
+    &.first,
+    &.second {
+      // justify-content: space-between;
+      // flex-wrap: wrap;
+      display: flex;
+      justify-content: space-around;
+
+      .charts {
+        border: 1px solid #eee;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-width: 50%;
+        min-width: 45%;
+        position: relative;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        padding: 20px;
+        apx-chart {
+          width: 100%;
+        }
+
+        .chart-title{
+          position: absolute;
+          top: 0;
+          left: 0;
+          padding: 10px;
+          font-size: 1rem;
+          font-weight: 600;
+        }
+      }
+
+      // > div {
+      //   flex: 1 1 45%;
+      //   background: #fff;
+      //   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      //   padding: 16px;
+      //   border-radius: 12px;
+      // }
+    }
+  }
+}

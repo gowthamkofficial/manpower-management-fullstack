@@ -1,22 +1,45 @@
 <div class="container">
   <div class="card">
     <div class="card-content">
-      <div class="card-title">Employee Management</div>
-      <div class="form-field">
-        <mat-form-field class="w-full" appearance="outline">
-          <mat-label>Email Address</mat-label>
-          <input matInput placeholder="Placeholder" />
-        </mat-form-field>
-      </div>
-      <div class="form-field">
-        <mat-form-field class="w-full" appearance="outline">
-          <mat-label>Password</mat-label>
-          <input matInput placeholder="Placeholder" />
-        </mat-form-field>
-      </div>
-      <div class="submit-btn">
-        <button  class="w-full" type="button" (click)="login()" matButton="elevated">Login</button>
-      </div>
+      <form [formGroup]="signInform">
+        <div class="card-title">Employee Management</div>
+
+        <div class="form-field">
+          <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Email Address </mat-label>
+            <input formControlName="email" matInput placeholder="Enter Email" />
+            <mat-error *ngIf="form['email']?.touched && form['email']?.errors">
+              {{getErrorType(form?.email,'Email','provide','')}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="form-field">
+          <mat-form-field class="w-full" appearance="outline">
+            <mat-label>Password</mat-label>
+            <input
+              formControlName="password"
+              matInput
+              placeholder="Enter Password"
+            />
+            <mat-error
+              *ngIf="form['password']?.touched && form['password']?.errors"
+            >
+              {{getErrorType(form?.password,'password','provide','')}}
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="submit-btn">
+          <button
+            class="w-full"
+            type="button"
+            (click)="login()"
+            matButton="elevated"
+          >
+            Login
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

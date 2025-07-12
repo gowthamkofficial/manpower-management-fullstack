@@ -31,3 +31,10 @@ body {
 .w-full {
   width: 100%;
 }
+
+.my-swal-toast {
+  width: 400px !important; // desired width
+  height: 60px !important; // desired height
+  padding: 1rem !important; // optional for spacing
+  font-size: 14px;
+}

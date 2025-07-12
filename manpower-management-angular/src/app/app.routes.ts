@@ -15,6 +15,8 @@ import { Calculator } from './modules/settings/calculator/calculator';
 import { Dashboard } from './modules/dashboard/dashboard';
 import { AuthLayout } from './shared/components/auth-layout/auth-layout';
 import { MainLayout } from './shared/components/main-layout/main-layout';
+import { authGuard } from './core/auth-guard';
+import { authenticatedGuard } from './core/authenticated-guard';
 
 export const routes: Routes = [
   {
@@ -27,6 +29,7 @@ export const routes: Routes = [
   {
     path: '',
     component: AuthLayout,
+    canActivate: [authGuard],
     children: [{ path: 'login', component: Login }],
   },
 
@@ -34,6 +37,7 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayout,
+    canActivate: [authenticatedGuard],
     children: [
       { path: 'dashboard', component: Dashboard },
 

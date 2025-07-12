@@ -23,6 +23,9 @@
       justify-content: center;
       flex-direction: column;
       gap: 10px;
+      form{
+        width: 100%;
+      }
 
       .card-title {
         text-align: center;
@@ -33,6 +36,7 @@
 
       .form-field {
         width: 100%;
+        padding-bottom: 20px;
       }
 
       .submit-btn {
