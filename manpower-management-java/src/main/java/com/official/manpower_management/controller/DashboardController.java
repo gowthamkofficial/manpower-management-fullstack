@@ -16,7 +16,7 @@ import com.official.manpower_management.service.DashboardService.DistrictCountDt
 import com.official.manpower_management.service.DashboardService.TopPaidEmployee;
 
 @RestController
-@RequestMapping 
+@RequestMapping("/api")
 public class DashboardController {
 
     @Autowired
