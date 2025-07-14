@@ -22,12 +22,17 @@ export class MainLayout {
       route: '/employee/list',
     },
     {
-      label: 'Settings',
-      icon: 'settings',
-      children: [
-        { label: 'Department', route: '/settings/department' },
-        // { label: 'CTC Calculator', route: '/settings/calculator' },
-      ],
+      label: 'Department',
+      icon: 'group',
+      route: '/settings/department',
     },
+    // {
+    //   label: 'Settings',
+    //   icon: 'settings',
+    //   children: [
+    //     { label: 'Department', route: '/settings/department' },
+    //     // { label: 'CTC Calculator', route: '/settings/calculator' },
+    //   ],
+    // },
   ];
 }
