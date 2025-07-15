@@ -93,7 +93,7 @@
       <input matInput type="number" />
     </mat-form-field>
 
-     <mat-form-field appearance="outline">
+    <mat-form-field appearance="outline">
       <mat-label>Deductions</mat-label>
       <input matInput type="number" />
     </mat-form-field>
@@ -107,38 +107,39 @@
   <!-- 🔹 Experience Details -->
   <h3 class="form-section-title">Experience Details</h3>
   <div class="experience-block">
-    <div class="form-grid">
-      <mat-form-field appearance="outline">
-        <mat-label>Company Name</mat-label>
-        <input matInput />
-      </mat-form-field>
+    <ng-container *ngFor="let data of [1,2,3,4,5]">
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Company Name</mat-label>
+          <input matInput />
+        </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>From Date</mat-label>
-        <input matInput [matDatepicker]="fromDate1" />
-        <mat-datepicker-toggle
-          matSuffix
-          [for]="fromDate1"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #fromDate1></mat-datepicker>
-      </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>From Date</mat-label>
+          <input matInput [matDatepicker]="fromDate1" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="fromDate1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #fromDate1></mat-datepicker>
+        </mat-form-field>
 
-      <mat-form-field appearance="outline">
-        <mat-label>To Date</mat-label>
-        <input matInput [matDatepicker]="toDate1" />
-        <mat-datepicker-toggle
-          matSuffix
-          [for]="toDate1"
-        ></mat-datepicker-toggle>
-        <mat-datepicker #toDate1></mat-datepicker>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline">
-        <mat-label>Role</mat-label>
-        <input matInput />
-      </mat-form-field>
-
-    </div>
+        <mat-form-field appearance="outline">
+          <mat-label>To Date</mat-label>
+          <input matInput [matDatepicker]="toDate1" />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="toDate1"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #toDate1></mat-datepicker>
+        </mat-form-field>
+        <div class="delete-button">
+          <button *ngIf="false" mat-icon-button color="warn">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    </ng-container>
 
     <button mat-stroked-button color="primary">
       <mat-icon>add</mat-icon> Add Experience

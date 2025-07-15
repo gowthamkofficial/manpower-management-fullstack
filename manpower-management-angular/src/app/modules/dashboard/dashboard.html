@@ -1,49 +1,45 @@
 <div class="container">
   <section class="row first">
     <div class="department charts">
-      <div class="chart-title">Department Based Employee</div>
       <apx-chart
+        *ngIf="pieChartOptions"
         [series]="pieChartOptions.series"
         [chart]="pieChartOptions.chart"
-        [labels]="pieChartOptions?.labels"
-        [responsive]="pieChartOptions?.responsive"
-      >
-      </apx-chart>
+        [labels]="pieChartOptions.labels"
+        [responsive]="pieChartOptions.responsive"
+      ></apx-chart>
     </div>
 
     <div class="district charts">
-      <div class="chart-title">District Based Employee</div>
-
       <apx-chart
+        *ngIf="districtChartOptions"
         [series]="districtChartOptions.series"
         [chart]="districtChartOptions.chart"
-        [xaxis]="districtChartOptions?.xaxis"
-      >
-      </apx-chart>
+        [xaxis]="districtChartOptions.xaxis"
+        [title]="districtChartOptions.title"
+      ></apx-chart>
     </div>
   </section>
 
   <section class="row second">
     <div class="top-paid charts">
-      <div class="chart-title">Top paid Employee</div>
-
       <apx-chart
+        *ngIf="topPaidChartOptions"
         [series]="topPaidChartOptions.series"
         [chart]="topPaidChartOptions.chart"
-        [xaxis]="topPaidChartOptions?.xaxis"
-      >
-      </apx-chart>
+        [xaxis]="topPaidChartOptions.xaxis"
+        [title]="topPaidChartOptions.title"
+      ></apx-chart>
     </div>
 
     <div class="lowest-paid charts">
-      <div class="chart-title">Lowest paid Employee</div>
-
       <apx-chart
-        [series]="deptSalaryChartOptions.series"
-        [chart]="deptSalaryChartOptions.chart"
-        [xaxis]="deptSalaryChartOptions?.xaxis"
-      >
-      </apx-chart>
+        *ngIf="lowestPaidChartOptions"
+        [series]="lowestPaidChartOptions.series"
+        [chart]="lowestPaidChartOptions.chart"
+        [xaxis]="lowestPaidChartOptions.xaxis"
+        [title]="lowestPaidChartOptions.title"
+      ></apx-chart>
     </div>
   </section>
 </div>

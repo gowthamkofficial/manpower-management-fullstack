@@ -1,33 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { SharedModule } from '../../../../shared/shared-module';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ApiEndpoints } from '../../../../../environments/api-endpoints.enum';
 import { ApiService } from '../../../../core/api.service';
 import { LoaderService } from '../../../../core/loader';
 import { ToasterService } from '../../../../core/toaster.service';
-import { ApiEndpoints } from '../../../../../environments/api-endpoints.enum';
-import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-create-department-dialog',
-  imports: [CommonModule, SharedModule],
-  templateUrl: './create-department-dialog.html',
-  styleUrl: './create-department-dialog.scss',
-  providers: [ApiService, LoaderService, ToasterService],
+  selector: 'app-edit-department',
+  imports: [SharedModule],
+  templateUrl: './edit-department.html',
+  styleUrl: './edit-department.scss',
 })
-export class CreateDepartmentDialog {
+export class EditDepartment implements OnInit {
   form: FormGroup;
 
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<CreateDepartmentDialog>,
+    private dialogRef: MatDialogRef<EditDepartment>,
     private service: ApiService,
     private loader: LoaderService,
-    private toaster: ToasterService
+    private toaster: ToasterService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
     });
+  }
+
+  ngOnInit(): void {
+    this.form?.get('name').setValue(this.data?.departmentName ?? '');
   }
 
   submit() {
@@ -36,7 +39,7 @@ export class CreateDepartmentDialog {
 
       this.loader.open();
       this.service
-        .post(ApiEndpoints.CREATE_DEPARTMENT, {
+        .post(`${ApiEndpoints.UPDATE_DEPARTMENT}/${this.data?.departmentId}`, {
           departmentName: deptData?.name,
         })
         .subscribe({
@@ -45,6 +48,7 @@ export class CreateDepartmentDialog {
             this.loader.close();
             this.toaster.success(res?.message);
             this.dialogRef.close(deptData);
+
           },
           error: (err) => {
             console.log(err);

@@ -1,9 +1,17 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { SharedModule } from '../../../shared/shared-module';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, Sort } from '@angular/material/sort';
 import { Router } from '@angular/router';
+import { LoaderService } from '../../../core/loader';
+import { ToasterService } from '../../../core/toaster.service';
+import { ApiService } from '../../../core/api.service';
+import { ApiEndpoints } from '../../../../environments/api-endpoints.enum';
+import { HttpParams } from '@angular/common/http';
+import { delay } from 'rxjs';
+
 interface Employee {
+  employeeId: number;
   firstName: string;
   lastName: string;
   email: string;
@@ -12,6 +20,7 @@ interface Employee {
   department: string;
   status: 'CURRENT' | 'RESIGNED';
 }
+
 @Component({
   selector: 'app-list',
   imports: [SharedModule],
@@ -26,33 +35,90 @@ export class List implements OnInit, AfterViewInit {
     'mobileNumber',
     'employeeCode',
     'department',
-    // 'status',
+    'action',
   ];
 
-  dataSource = new MatTableDataSource<Employee>([]);
+  dataSource: Employee[] = [];
+  totalElements = 0;
+  pageSize = 5;
+  pageIndex = 0;
+  sortField = 'id';
+  sortDirection: 'ASC' | 'DESC' = 'ASC';
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    public loader: LoaderService,
+    private toaster: ToasterService,
+    private service: ApiService
+  ) {}
 
   ngOnInit(): void {
-    // Replace with API data
-    this.dataSource.data = Array.from({ length: 50 }).map((_, i) => ({
-      firstName: `First${i + 1}`,
-      lastName: `Last${i + 1}`,
-      email: `user${i + 1}@email.com`,
-      mobileNumber: `98765${10000 + i}`,
-      employeeCode: `EMP${100 + i}`,
-      department: i % 2 === 0 ? 'HR' : 'IT',
-      status: i % 3 === 0 ? 'RESIGNED' : 'CURRENT',
-    }));
+    this.getAllEmployee();
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.paginator = this.paginator;
+    this.sort.sortChange.subscribe((sortEvent: Sort) => {
+      this.sortField = sortEvent.active;
+      this.sortDirection = sortEvent.direction.toUpperCase() as 'ASC' | 'DESC';
+      this.pageIndex = 0; // reset to first page on sort
+      this.getAllEmployee();
+    });
   }
 
   createEmployee(): void {
     this.router.navigate(['/employee/create']);
+  }
+
+  getAllEmployee(): void {
+    this.loader.open();
+
+    let params: any = {
+      page: this.pageIndex ?? 0,
+      size: this.pageSize,
+      sortField: this.sortField,
+      direction: this.sortDirection,
+    };
+
+    let queryParams = new HttpParams();
+    for (let key in params) {
+      if (params[key] != null && params[key] !== '') {
+        queryParams = queryParams.append(key, params[key]);
+      }
+    }
+
+    this.service.get(ApiEndpoints.GET_ALL_EMPLOYEES, queryParams).pipe(delay(1000)).subscribe({
+      next: (res: any) => {
+        const response = res.data;
+
+        this.dataSource = response.content.map((emp: any) => ({
+          employeeId: emp.employeeId,
+          firstName: emp.firstName,
+          lastName: emp.lastName,
+          email: emp.email,
+          mobileNumber: emp.mobileNumber,
+          employeeCode: `EMP${emp.employeeId}`,
+          department: emp.department?.departmentName,
+        }));
+
+        this.totalElements = response.totalElements;
+        this.pageIndex = response.pageNumber;
+        this.pageSize = response.pageSize;
+
+        this.loader.close();
+      },
+      error: (err) => {
+        this.loader.close();
+        this.toaster.error(err?.error?.message || 'Failed to load employees');
+      },
+    });
+  }
+
+  onPageChange(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.getAllEmployee();
   }
 }

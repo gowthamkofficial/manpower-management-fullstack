@@ -1,5 +1,5 @@
 <div class="employee-header">
-  <h2>Employee Lis ({{dataSource.data.length}})</h2>
+  <h2>Employee List ({{ totalElements }})</h2>
   <button mat-flat-button color="primary" (click)="createEmployee()">
     <mat-icon>add</mat-icon> Create Employee
   </button>
@@ -46,15 +46,16 @@
     <mat-cell *matCellDef="let element">{{ element.department }}</mat-cell>
   </ng-container>
 
-  <!-- Status Column -->
-  <ng-container matColumnDef="status">
-    <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+  <!-- Action Column -->
+  <ng-container matColumnDef="action">
+    <mat-header-cell *matHeaderCellDef>Action</mat-header-cell>
     <mat-cell *matCellDef="let element">
-      <span
-        [ngClass]="element.status === 'RESIGNED' ? 'status-resigned' : 'status-active'"
-      >
-        {{ element.status }}
-      </span>
+      <button mat-icon-button color="primary">
+        <mat-icon>visibility</mat-icon>
+      </button>
+      <button mat-icon-button color="accent">
+        <mat-icon>edit</mat-icon>
+      </button>
     </mat-cell>
   </ng-container>
 
@@ -63,4 +64,20 @@
   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
 </mat-table>
 
-<mat-paginator [pageSizeOptions]="[ 10, 25,50]"></mat-paginator>
+<div
+  class="no-data"
+  *ngIf="this.dataSource?.length==0||(loader.isLoading|async)==true"
+>
+  <h2 style="text-align: center">
+    {{(loader.isLoading|async)==true ? "Loading..." : "No data found"}}
+  </h2>
+</div>
+
+<mat-paginator
+  *ngIf="this.dataSource?.length>0"
+  [length]="totalElements"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[5,10, 25, 50]"
+  (page)="onPageChange($event)"
+>
+</mat-paginator>

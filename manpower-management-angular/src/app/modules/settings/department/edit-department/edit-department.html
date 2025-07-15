@@ -1,6 +1,6 @@
-<h2 mat-dialog-title>Create Department</h2>
+<h2 mat-dialog-title>Update Department</h2>
 <mat-dialog-content>
-  <form [formGroup]="form" style="margin-top: 20px;">
+  <form [formGroup]="form" style="margin-top: 20px">
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Department Name</mat-label>
       <input matInput formControlName="name" />
@@ -19,6 +19,6 @@
     (click)="submit()"
     [disabled]="form.invalid"
   >
-    Create
+    Update
   </button>
 </mat-dialog-actions>

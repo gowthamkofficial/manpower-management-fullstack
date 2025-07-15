@@ -34,7 +34,17 @@ body {
 
 .my-swal-toast {
   width: 400px !important; // desired width
-  height: 60px !important; // desired height
+  height: 80px !important; // desired height
   padding: 1rem !important; // optional for spacing
   font-size: 14px;
+}
+
+.no-data{
+  width: 100%;
+  min-height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border: 1px solid #eee;
 }

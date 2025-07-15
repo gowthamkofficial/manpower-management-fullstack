@@ -1,17 +1,11 @@
-import { inject } from '@angular/core';
+// src/app/core/guards/authenticated.guard.ts
 import { CanActivateFn, Router } from '@angular/router';
-import { PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { inject } from '@angular/core';
+import { AuthService } from './auth.service';
 
 export const authenticatedGuard: CanActivateFn = () => {
-  const platformId = inject(PLATFORM_ID);
+  const authService = inject(AuthService);
   const router = inject(Router);
-  const isBrowser = isPlatformBrowser(platformId);
 
-  if (isBrowser) {
-    const isLoggedIn = sessionStorage.getItem('verified') === 'true';
-    return isLoggedIn ? true : router.parseUrl('/login');
-  }
-
-  return router.parseUrl('/login');
+  return authService.isLoggedIn() ? true : router.parseUrl('/login');
 };
