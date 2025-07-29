@@ -2,6 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { SharedModule } from '../../../shared/shared-module';
 import { CommonModule } from '@angular/common';
+import { getErrorType } from '../../../core/form-validator';
+import { LoaderService } from '../../../core/loader';
+import { ToasterService } from '../../../core/toaster.service';
+import { ApiService } from '../../../core/api.service';
+import { ApiEndpoints } from '../../../../environments/api-endpoints.enum';
+import { Router } from '@angular/router';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'create',
@@ -11,11 +18,29 @@ import { CommonModule } from '@angular/common';
 })
 export class Create implements OnInit {
   employeeForm!: FormGroup;
+  departmentList = [];
+
+  constructor(
+    private loader: LoaderService,
+    private toaster: ToasterService,
+    private service: ApiService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.initEmployeeForm();
+    this.getAllDepartments();
   }
-
+  getAllDepartments() {
+    this.service.get(ApiEndpoints.GET_DEPARTMENTS).subscribe({
+      next: (res: any) => {
+        this.departmentList = res?.data ?? [];
+      },
+      error: (err) => {
+        this.departmentList = [];
+      },
+    });
+  }
   initEmployeeForm() {
     this.employeeForm = new FormGroup({
       employeeId: new FormControl(0),
@@ -28,12 +53,7 @@ export class Create implements OnInit {
       ]),
       dateOfJoining: new FormControl('', Validators.required),
 
-      department: new FormGroup({
-        departmentId: new FormControl(0, Validators.required),
-        departmentName: new FormControl('', Validators.required),
-        status: new FormControl('ACTIVE', Validators.required),
-      }),
-
+      department: new FormControl('', [Validators.required]),
       salary: new FormGroup({
         salaryId: new FormControl(0),
         takeHome: new FormControl(0, Validators.required),
@@ -69,11 +89,26 @@ export class Create implements OnInit {
     return this.employeeForm.controls;
   }
 
+  get addressForm() {
+    return (this.employeeForm.get('address') as FormGroup).controls;
+  }
+
+  get salaryForm() {
+    return (this.employeeForm.get('salary') as FormGroup).controls;
+  }
+
   get experience(): FormArray {
     return this.employeeForm.get('experience') as FormArray;
   }
 
   addExperience(): void {
+    const exp = this.employeeForm.get('experience') as FormArray;
+
+    if (exp.invalid) {
+      this.toaster.warning('Kindly provide the required fields');
+      return;
+    }
+
     this.experience.push(
       new FormGroup({
         experienceId: new FormControl(0),
@@ -91,24 +126,59 @@ export class Create implements OnInit {
   submit(): void {
     if (this.employeeForm.invalid) {
       this.employeeForm.markAllAsTouched();
+      this.toaster.warning('Kindly provide the required fields');
       return;
     }
 
-    console.log('Employee Form Submitted:', this.employeeForm.value);
-    // Submit logic here
+    const raw = this.employeeForm.value;
+
+    // 🔹 Convert date to YYYY-MM-DD
+    const formatDate = (dateStr: string) => {
+      if (!dateStr) return '';
+      const date = new Date(dateStr);
+      return date.toISOString().split('T')[0];
+    };
+
+    const payload = {
+      ...raw,
+      dateOfJoining: formatDate(raw.dateOfJoining),
+
+      department: {
+        departmentId: raw.department,
+      },
+
+      address: {
+        ...raw.address,
+        pincode: String(raw.address.pincode),
+      },
+
+      salary: {
+        ...raw.salary,
+      },
+
+      experience: raw.experience.map((exp: any) => ({
+        ...exp,
+        fromDate: formatDate(exp.fromDate),
+        toDate: formatDate(exp.toDate),
+      })),
+    };
+
+    this.service
+      .post(ApiEndpoints.CREATE_EMPLOYEE, payload)
+      .pipe(delay(2000))
+      .subscribe({
+        next: (res) => {
+          this.toaster.success('Employee created successfully');
+          this.employeeForm.reset();
+          this.router.navigate(['/employee/list']);
+        },
+        error: (err) => {
+          this.toaster.error('Failed to create employee');
+        },
+      });
   }
 
-  getErrorType(
-    control: FormControl | null,
-    label: string,
-    verb: string,
-    suffix: string
-  ): string {
-    if (!control || !control.errors) return '';
-
-    if (control.errors['required']) return `${label} is required`;
-    if (control.errors['email']) return `Enter a valid ${label}`;
-    if (control.errors['pattern']) return `Enter a valid ${label}`;
-    return `${label} is invalid`;
+  getErrorType(control, label, type, number?: any) {
+    return getErrorType(control, label, type, number);
   }
 }

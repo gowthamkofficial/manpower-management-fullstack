@@ -1,1 +1,264 @@
-<p>update works!</p>
+<div class="employee-header">
+  <h2>Update Employee</h2>
+  <button mat-flat-button color="accent" [routerLink]="['/employee/list']">
+    <mat-icon>list</mat-icon>
+    List
+  </button>
+</div>
+
+<form [formGroup]="employeeForm">
+  <mat-card class="form-card">
+    <!-- 🔹 Personal Details -->
+    <h3 class="form-section-title">Personal Details</h3>
+    <div class="form-grid">
+      <mat-form-field appearance="outline">
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" />
+        <mat-error
+          >{{ getErrorType(form['firstName'],'First name', 'Provide ')
+          }}</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" />
+        <mat-error
+          >{{ getErrorType(form['lastName'], 'Last name', 'Provide ')
+          }}</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" />
+        <mat-error
+          >{{ getErrorType(form['email'], 'Email', 'Provide ') }}</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Mobile Number</mat-label>
+        <input matInput formControlName="mobileNumber" />
+        <mat-error
+          >{{ getErrorType(form['mobileNumber'], 'Mobile', 'Provide ')
+          }}</mat-error
+        >
+      </mat-form-field>
+
+      <!-- <mat-form-field appearance="outline">
+        <mat-label>Department</mat-label>
+        <input
+          matInput
+          formControlName="departmentName"
+          [formControl]="employeeForm.get('department.departmentName')"
+        />
+      </mat-form-field> -->
+
+      <mat-form-field appearance="outline">
+        <mat-label>Department</mat-label>
+        <mat-select formControlName="department">
+          <mat-option
+            *ngFor="let data of departmentList"
+            [value]="data?.departmentId"
+            >{{data?.departmentName}}</mat-option
+          >
+        </mat-select>
+        <mat-error
+          >{{ getErrorType(form['department'], 'Department', 'select ')
+          }}</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Date of Joining</mat-label>
+        <input
+          matInput
+          [matDatepicker]="joiningPicker"
+          formControlName="dateOfJoining"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="joiningPicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #joiningPicker></mat-datepicker>
+        <mat-error
+          >{{ getErrorType(form['dateOfJoining'], 'Date of joining', 'select ')
+          }}</mat-error
+        >
+      </mat-form-field>
+    </div>
+
+    <!-- 🔹 Address Details -->
+    <h3 class="form-section-title">Address Details</h3>
+    <div class="form-grid" [formGroup]="employeeForm.get('address')">
+      <mat-form-field appearance="outline">
+        <mat-label>Door No</mat-label>
+        <input matInput formControlName="doorNo" />
+        <mat-error
+          >{{ getErrorType(addressForm["doorNo"], 'Door No', 'provide ')
+          }}</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Address Line 1</mat-label>
+        <input matInput formControlName="addressLine1" />
+        <mat-error
+          >{{ getErrorType(addressForm["addressLine1"], 'Address Line 1',
+          'provide ') }}</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Address Line 2</mat-label>
+        <input matInput formControlName="addressLine2" />
+        <mat-error
+          >{{ getErrorType(addressForm["addressLine2"], 'Address Line 2',
+          'provide ') }}</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>District</mat-label>
+        <input matInput formControlName="district" />
+        <mat-error
+          >{{ getErrorType(addressForm["district"], 'District', 'provide ')
+          }}</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>State</mat-label>
+        <input matInput formControlName="state" />
+        <mat-error
+          >{{ getErrorType(addressForm["state"], 'State', 'provide ')
+          }}</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Pincode</mat-label>
+        <input matInput formControlName="pincode" type="number" />
+        <mat-error
+          >{{ getErrorType(addressForm["pincode"], 'pincode', 'provide ')
+          }}</mat-error
+        >
+      </mat-form-field>
+    </div>
+
+    <!-- 🔹 Salary Details -->
+    <h3 class="form-section-title">Salary Details</h3>
+    <div class="form-grid" [formGroup]="employeeForm.get('salary')">
+      <mat-form-field appearance="outline">
+        <mat-label>CTC</mat-label>
+        <input matInput type="number" formControlName="ctc" />
+        <mat-error
+          >{{ getErrorType(salaryForm["ctc"], 'CTC', 'provide ') }}</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Deductions</mat-label>
+        <input matInput type="number" formControlName="deduction" />
+        <mat-error
+          >{{ getErrorType(salaryForm["deduction"], 'deductions', 'provide ')
+          }}</mat-error
+        >
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Take Home</mat-label>
+        <input matInput type="number" formControlName="takeHome" />
+        <mat-error
+          >{{ getErrorType(salaryForm["takeHome"], 'takeHome', 'provide ')
+          }}</mat-error
+        >
+      </mat-form-field>
+    </div>
+
+    <!-- 🔹 Experience Details -->
+    <h3 class="form-section-title">Experience Details</h3>
+    <div class="experience-block">
+      <ng-container formArrayName="experience">
+        <div
+          *ngFor="let exp of experience.controls; let i = index"
+          [formGroupName]="i"
+          class="form-grid"
+        >
+          <mat-form-field appearance="outline">
+            <mat-label>Company Name</mat-label>
+            <input matInput formControlName="companyName" />
+            <mat-error
+              >{{ getErrorType(exp?.get("companyName"), 'company name',
+              'provide') }}</mat-error
+            >
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>From Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="fromPicker"
+              formControlName="fromDate"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="fromPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #fromPicker></mat-datepicker>
+            <mat-error
+              >{{ getErrorType(exp?.get("fromDate"), 'from date', 'provide ')
+              }}</mat-error
+            >
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>To Date</mat-label>
+            <input
+              matInput
+              [matDatepicker]="toPicker"
+              formControlName="toDate"
+            />
+            <mat-datepicker-toggle
+              matSuffix
+              [for]="toPicker"
+            ></mat-datepicker-toggle>
+            <mat-datepicker #toPicker></mat-datepicker>
+            <mat-error
+              >{{ getErrorType(exp?.get("toDate"), 'to date', 'provide ')
+              }}</mat-error
+            >
+          </mat-form-field>
+
+          <div class="delete-button">
+            <button
+              mat-icon-button
+              type="button"
+              color="warn"
+              (click)="experience.removeAt(i)"
+              *ngIf="experience.length > 1"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+
+      <button
+        mat-stroked-button
+        type="button"
+        color="primary"
+        (click)="addExperience()"
+      >
+        <mat-icon>add</mat-icon> Add Experience
+      </button>
+    </div>
+
+    <!-- 🔹 Action Buttons -->
+    <div class="form-actions">
+      <button mat-flat-button color="primary" (click)="submit()">Submit</button>
+      <button mat-button type="reset">Reset</button>
+    </div>
+  </mat-card>
+</form>

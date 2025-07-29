@@ -51,9 +51,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/getEmployee/{id}")
-    public ResponseEntity<ApiResponse<EmployeeDto>> getEmployeeById(@PathVariable Long id,
-            @RequestBody EmployeeDto dto) {
-        System.err.println(dto);
+    public ResponseEntity<ApiResponse<EmployeeDto>> getEmployeeById(@PathVariable Long id) {
+        System.err.println(id);
         return this.employeeService.getEmployeeById(id);
     }
 

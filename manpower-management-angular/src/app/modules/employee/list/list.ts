@@ -72,6 +72,14 @@ export class List implements OnInit, AfterViewInit {
     this.router.navigate(['/employee/create']);
   }
 
+  viewEmployee(data): void {
+    this.router.navigate([`/employee/view/${data?.employeeId}`]);
+  }
+
+  updateEmployee(data): void {
+    this.router.navigate([`/employee/update/${data?.employeeId}`]);
+  }
+
   getAllEmployee(): void {
     this.loader.open();
 
@@ -89,31 +97,34 @@ export class List implements OnInit, AfterViewInit {
       }
     }
 
-    this.service.get(ApiEndpoints.GET_ALL_EMPLOYEES, queryParams).pipe(delay(1000)).subscribe({
-      next: (res: any) => {
-        const response = res.data;
+    this.service
+      .get(ApiEndpoints.GET_ALL_EMPLOYEES, queryParams)
+      .pipe(delay(1000))
+      .subscribe({
+        next: (res: any) => {
+          const response = res.data;
 
-        this.dataSource = response.content.map((emp: any) => ({
-          employeeId: emp.employeeId,
-          firstName: emp.firstName,
-          lastName: emp.lastName,
-          email: emp.email,
-          mobileNumber: emp.mobileNumber,
-          employeeCode: `EMP${emp.employeeId}`,
-          department: emp.department?.departmentName,
-        }));
+          this.dataSource = response.content.map((emp: any) => ({
+            employeeId: emp.employeeId,
+            firstName: emp.firstName,
+            lastName: emp.lastName,
+            email: emp.email,
+            mobileNumber: emp.mobileNumber,
+            employeeCode: `EMP${emp.employeeId}`,
+            department: emp.department?.departmentName,
+          }));
 
-        this.totalElements = response.totalElements;
-        this.pageIndex = response.pageNumber;
-        this.pageSize = response.pageSize;
+          this.totalElements = response.totalElements;
+          this.pageIndex = response.pageNumber;
+          this.pageSize = response.pageSize;
 
-        this.loader.close();
-      },
-      error: (err) => {
-        this.loader.close();
-        this.toaster.error(err?.error?.message || 'Failed to load employees');
-      },
-    });
+          this.loader.close();
+        },
+        error: (err) => {
+          this.loader.close();
+          this.toaster.error(err?.error?.message || 'Failed to load employees');
+        },
+      });
   }
 
   onPageChange(event: PageEvent): void {

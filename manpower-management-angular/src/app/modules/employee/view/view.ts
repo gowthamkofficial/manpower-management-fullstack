@@ -1,5 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { SharedModule } from '../../../shared/shared-module';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService } from '../../../core/api.service';
+import { LoaderService } from '../../../core/loader';
+import { ToasterService } from '../../../core/toaster.service';
+import { ApiEndpoints } from '../../../../environments/api-endpoints.enum';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-view',
@@ -7,8 +13,49 @@ import { SharedModule } from '../../../shared/shared-module';
   templateUrl: './view.html',
   styleUrl: './view.scss',
 })
-export class View {
-  employee = {
+export class View implements OnInit {
+  employeeId;
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    public loader: LoaderService,
+    private toaster: ToasterService,
+    private service: ApiService
+  ) {
+    this.activatedRoute.params.subscribe({
+      next: (res: any) => {
+        this.employeeId = res?.id;
+        this.getEmployee();
+      },
+      error: (err) => {
+        this.toaster.error(err?.error?.message ?? 'Something went wrong!');
+      },
+    });
+  }
+
+  ngOnInit(): void {
+    // this.getEmployee();
+  }
+
+  getEmployee() {
+    this.loader.open();
+    this.service
+      .get(`${ApiEndpoints.GET_EMPLOYEE_BY_ID}/${Number(this.employeeId)}`)
+      .pipe(delay(2000))
+      .subscribe({
+        next: (res: any) => {
+          this.employee = res?.data;
+          this.loader.close();
+        },
+        error: (err) => {
+          this.employee = null;
+          this.toaster.error(err?.error?.message ?? 'Something went wrong!');
+        },
+      });
+  }
+
+  employee: any = {
     firstName: 'Gowtham',
     lastName: 'K',
     email: 'gowtham@example.com',
